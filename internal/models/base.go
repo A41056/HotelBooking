@@ -14,7 +14,7 @@ type Base struct {
 	ModifiedAt time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"modified_at"`
 }
 
-func (base *Base) BeforeSave() (err error) {
+func (base *Base) BeforeSave(db *gorm.DB) error {
 	base.ModifiedAt = time.Now()
 	return nil
 }

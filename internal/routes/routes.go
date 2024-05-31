@@ -8,8 +8,7 @@ import (
 
 func SetupRouter(
 	authController *controllers.UserController,
-	// bookingController *controllers.BookingController,
-	// searchController *controllers.SearchController,
+	roomController *controllers.RoomController,
 ) *gin.Engine {
 	router := gin.Default()
 
@@ -29,16 +28,12 @@ func SetupRouter(
 		private.GET("/users", authController.GetAllUsers)
 		private.DELETE("/user/:id", authController.DeleteUser)
 
-		//// Booking routes
-		//private.POST("/bookings", bookingController.CreateBooking)
-		//private.GET("/bookings", bookingController.GetBookings)
-		//private.GET("/bookings/:id", bookingController.GetBooking)
-		//private.PUT("/bookings/:id", bookingController.UpdateBooking)
-		//private.DELETE("/bookings/:id", bookingController.CancelBooking)
-		//
-		//// Search routes
-		//private.GET("/search/hotels", searchController.SearchHotels)
-		//private.GET("/search/rooms", searchController.SearchRooms)
+		// Room routes
+		private.GET("/room/:id", roomController.GetRoomByID)
+		private.POST("/room", roomController.CreateRoom)
+		private.PUT("/room", roomController.UpdateRoom)
+		private.DELETE("/room", roomController.DeleteRoom)
+		private.GET("/rooms", roomController.GetRoomsByFilter)
 	}
 
 	return router

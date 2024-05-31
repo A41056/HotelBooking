@@ -24,7 +24,13 @@ func main() {
 
 	authController := controllers.NewAuthController(userService)
 
-	router := routes.SetupRouter(authController)
+	roomRepo := repositories.NewRoomRepository(db)
+
+	roomService := services.NewRoomService(roomRepo)
+
+	roomController := controllers.NewRoomController(roomService)
+
+	router := routes.SetupRouter(authController, roomController)
 
 	if err := router.Run(":8080"); err != nil {
 		log.Fatalf("failed to run server: %v", err)
