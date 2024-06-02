@@ -5,6 +5,7 @@ import (
 	"github.com/joho/godotenv"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
+	"main.go/internal/models"
 	"os"
 )
 
@@ -34,7 +35,8 @@ func init() {
 	}
 
 	// Auto Migrate
-	// DB.AutoMigrate(&Model{}) // Uncomment and replace Model with your model struct if needed
+	DB.AutoMigrate(&models.Room{})
+	DB.AutoMigrate(&models.Booking{})
 
 	fmt.Println("Database connected successfully")
 }

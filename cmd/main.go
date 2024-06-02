@@ -30,7 +30,13 @@ func main() {
 
 	roomController := controllers.NewRoomController(roomService)
 
-	router := routes.SetupRouter(authController, roomController)
+	bookingRepo := repositories.NewBookingRepository(db)
+
+	bookingService := services.NewBookingService(bookingRepo)
+
+	bookingController := controllers.NewBookingController(bookingService)
+
+	router := routes.SetupRouter(authController, roomController, bookingController)
 
 	if err := router.Run(":8080"); err != nil {
 		log.Fatalf("failed to run server: %v", err)
