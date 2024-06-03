@@ -3,13 +3,14 @@ package controllers
 import (
 	"context"
 	"errors"
-	"gorm.io/gorm"
 	"net/http"
+
+	"gorm.io/gorm"
+	"main.go/internal/domain"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 	"main.go/internal/const"
-	"main.go/internal/models"
 	"main.go/internal/services"
 )
 
@@ -22,7 +23,7 @@ func NewAuthController(userService services.UserService) *UserController {
 }
 
 func (ac *UserController) Register(c *gin.Context) {
-	var userCreateRequest models.UserCreateRequest
+	var userCreateRequest domain.UserCreateRequest
 	if err := c.ShouldBindJSON(&userCreateRequest); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -57,7 +58,7 @@ func (ac *UserController) Login(c *gin.Context) {
 }
 
 func (ac *UserController) EditProfile(c *gin.Context) {
-	var user models.User
+	var user domain.User
 	if err := c.ShouldBindJSON(&user); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return

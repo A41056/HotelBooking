@@ -1,12 +1,13 @@
 package controllers
 
 import (
+	"net/http"
+	"time"
+
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 	"main.go/internal/const"
 	"main.go/internal/services"
-	"net/http"
-	"time"
 )
 
 type BookingController struct {
@@ -55,7 +56,7 @@ func (bc *BookingController) CreateBooking(c *gin.Context) {
 		return
 	}
 
-	booking, err := bc.bookingService.CreateBooking(userID, roomID, checkInDate, checkOutDate, req.Status)
+	booking, err := bc.bookingService.CreateBooking(userID, roomID, checkInDate, checkOutDate, _const.Status(req.Status))
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
@@ -94,7 +95,7 @@ func (bc *BookingController) UpdateBooking(c *gin.Context) {
 		return
 	}
 
-	booking, err := bc.bookingService.UpdateBooking(id, checkInDate, checkOutDate, req.Status)
+	booking, err := bc.bookingService.UpdateBooking(id, checkInDate, checkOutDate, _const.Status(req.Status))
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
