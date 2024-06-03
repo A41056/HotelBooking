@@ -5,15 +5,9 @@ import (
 	"time"
 
 	"github.com/google/uuid"
+	"main.go/internal/const"
 	"main.go/internal/models"
 	"main.go/internal/repositories"
-)
-
-var (
-	ErrOverlapBooking  = errors.New("overlapping bookings are not allowed")
-	ErrPastDateBooking = errors.New("bookings can only be made for future dates")
-	ErrInvalidStatus   = errors.New("invalid booking status")
-	ErrBookingNotFound = errors.New("booking not found")
 )
 
 type BookingService interface {
@@ -35,11 +29,11 @@ func NewBookingService(repo repositories.BookingRepository) BookingService {
 
 func (s *bookingService) CreateBooking(userID, roomID uuid.UUID, checkInDate, checkOutDate time.Time, status int) (*models.Booking, error) {
 	if status != models.Booked && status != models.Cancelled {
-		return nil, ErrInvalidStatus
+		return nil, errors.New(_const.ErrInvalidStatus)
 	}
 
 	if time.Now().After(checkInDate) || time.Now().After(checkOutDate) {
-		return nil, ErrPastDateBooking
+		return nil, errors.New(_const.ErrPastDateBooking)
 	}
 
 	// Check for overlapping bookings
@@ -48,7 +42,7 @@ func (s *bookingService) CreateBooking(userID, roomID uuid.UUID, checkInDate, ch
 		return nil, err
 	}
 	if len(overlappingBookings) > 0 {
-		return nil, ErrOverlapBooking
+		return nil, errors.New(_const.ErrOverlapBooking)
 	}
 
 	booking := &models.Booking{
@@ -66,11 +60,11 @@ func (s *bookingService) CreateBooking(userID, roomID uuid.UUID, checkInDate, ch
 
 func (s *bookingService) UpdateBooking(id uuid.UUID, checkInDate, checkOutDate time.Time, status int) (*models.Booking, error) {
 	if status != models.Booked && status != models.Cancelled {
-		return nil, ErrInvalidStatus
+		return nil, errors.New(_const.ErrInvalidStatus)
 	}
 
 	if time.Now().After(checkInDate) || time.Now().After(checkOutDate) {
-		return nil, ErrPastDateBooking
+		return nil, errors.New(_const.ErrPastDateBooking)
 	}
 
 	booking, err := s.repo.GetByID(id)
@@ -79,7 +73,7 @@ func (s *bookingService) UpdateBooking(id uuid.UUID, checkInDate, checkOutDate t
 	}
 
 	if booking == nil {
-		return nil, ErrBookingNotFound
+		return nil, errors.New(_const.ErrBookingNotFound)
 	}
 
 	// Check for overlapping bookings
@@ -88,7 +82,7 @@ func (s *bookingService) UpdateBooking(id uuid.UUID, checkInDate, checkOutDate t
 		return nil, err
 	}
 	if len(overlappingBookings) > 0 {
-		return nil, ErrOverlapBooking
+		return nil, errors.New(_const.ErrOverlapBooking)
 	}
 
 	booking.CheckInDate = checkInDate

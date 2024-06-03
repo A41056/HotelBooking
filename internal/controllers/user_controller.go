@@ -8,6 +8,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
+	"main.go/internal/const"
 	"main.go/internal/models"
 	"main.go/internal/services"
 )
@@ -48,7 +49,7 @@ func (ac *UserController) Login(c *gin.Context) {
 
 	token, err := ac.userService.Login(context.Background(), loginRequest.Username, loginRequest.Password)
 	if err != nil {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "invalid email or password"})
+		c.JSON(http.StatusUnauthorized, gin.H{"error": _const.ErrInvalidEmaiOrPassword})
 		return
 	}
 
@@ -64,7 +65,7 @@ func (ac *UserController) EditProfile(c *gin.Context) {
 
 	userID, err := uuid.Parse(c.GetString("userID"))
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid user ID"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": _const.ErrInvalidUserID})
 		return
 	}
 
@@ -80,14 +81,14 @@ func (ac *UserController) EditProfile(c *gin.Context) {
 func (ac *UserController) GetProfile(c *gin.Context) {
 	userID, err := uuid.Parse(c.Param("id"))
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid user ID"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": _const.ErrInvalidUserID})
 		return
 	}
 
 	user, err := ac.userService.GetUserByID(context.Background(), userID)
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
-			c.JSON(http.StatusNotFound, gin.H{"error": "user not found"})
+			c.JSON(http.StatusNotFound, gin.H{"error": _const.ErrUserNotFound})
 			return
 		}
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
@@ -110,14 +111,14 @@ func (ac *UserController) GetAllUsers(c *gin.Context) {
 func (ac *UserController) DeleteUser(c *gin.Context) {
 	userID, err := uuid.Parse(c.Param("id"))
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid user ID"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": _const.ErrInvalidUserID})
 		return
 	}
 
 	err = ac.userService.DeleteUser(context.Background(), userID)
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
-			c.JSON(http.StatusNotFound, gin.H{"error": "user not found"})
+			c.JSON(http.StatusNotFound, gin.H{"error": _const.ErrUserNotFound})
 			return
 		}
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})

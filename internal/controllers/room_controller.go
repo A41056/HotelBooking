@@ -3,6 +3,7 @@ package controllers
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
+	"main.go/internal/const"
 	"main.go/internal/models"
 	"main.go/internal/services"
 	"net/http"
@@ -19,18 +20,18 @@ func NewRoomController(roomService *services.RoomService) *RoomController {
 func (rc *RoomController) GetRoomByID(c *gin.Context) {
 	roomIdStr := c.Query("id")
 	if roomIdStr == "" {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Room ID is required"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": _const.ErrRequireRoom})
 		return
 	}
 
 	roomId, err := uuid.Parse(roomIdStr)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid room ID"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": _const.ErrInvalidRoomID})
 		return
 	}
 
 	if roomId == uuid.Nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid room ID"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": _const.ErrInvalidRoomID})
 		return
 	}
 
@@ -47,7 +48,7 @@ func (rc *RoomController) GetRoomByID(c *gin.Context) {
 func (rc *RoomController) CreateRoom(c *gin.Context) {
 	var room models.Room
 	if err := c.BindJSON(&room); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Failed to decode request body"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": _const.ErrFailedDecodeRequestBody})
 		return
 	}
 
@@ -63,7 +64,7 @@ func (rc *RoomController) CreateRoom(c *gin.Context) {
 func (rc *RoomController) UpdateRoom(c *gin.Context) {
 	var room models.Room
 	if err := c.BindJSON(&room); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Failed to decode request body"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": _const.ErrFailedDecodeRequestBody})
 		return
 	}
 
@@ -79,13 +80,13 @@ func (rc *RoomController) UpdateRoom(c *gin.Context) {
 func (rc *RoomController) DeleteRoom(c *gin.Context) {
 	roomIdStr := c.Query("id")
 	if roomIdStr == "" {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Room ID is required"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": _const.ErrRequireRoom})
 		return
 	}
 
 	roomId, err := uuid.Parse(roomIdStr)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid room ID"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": _const.ErrInvalidRoomID})
 		return
 	}
 
@@ -101,7 +102,7 @@ func (rc *RoomController) DeleteRoom(c *gin.Context) {
 func (rc *RoomController) GetRoomsByFilter(c *gin.Context) {
 	var filters map[string]interface{}
 	if err := c.BindJSON(&filters); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Failed to decode request body"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": _const.ErrFailedDecodeRequestBody})
 		return
 	}
 
