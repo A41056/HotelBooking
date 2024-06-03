@@ -19,12 +19,11 @@ func (base *Base) BeforeSave(db *gorm.DB) error {
 	return nil
 }
 
-func (user *User) BeforeCreate(tx *gorm.DB) (err error) {
-	// Generate UUID for ID field
-	user.ID = uuid.New()
-
-	// Set CreatedAt to current time
-	user.CreatedAt = time.Now()
-
+func (base *Base) BeforeCreate(tx *gorm.DB) (err error) {
+	if base.ID == uuid.Nil {
+		base.ID = uuid.New()
+	}
+	base.CreatedAt = time.Now()
+	base.ModifiedAt = time.Now()
 	return nil
 }

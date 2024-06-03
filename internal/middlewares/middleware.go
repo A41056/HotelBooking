@@ -1,6 +1,7 @@
 package middlewares
 
 import (
+	"github.com/google/uuid"
 	"main.go/internal/utils"
 	"net/http"
 	"strings"
@@ -34,6 +35,22 @@ func AuthMiddleware() gin.HandlerFunc {
 		userID, err := utils.ValidateJWT(token)
 		if err != nil {
 			c.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
+			c.Abort()
+			return
+		}
+
+		// Convert userID to uuid.UUID
+		userUUID, err := uuid.Parse(userID)
+		if err != nil {
+			c.JSON(http.StatusUnauthorized, gin.H{"error": "invalid user ID"})
+			c.Abort()
+			return
+		}
+
+		// Get rate limiter for the user
+		limiter := getRateLimiter(userUUID)
+		if !limiter.limiter.Allow() {
+			c.JSON(http.StatusTooManyRequests, gin.H{"error": "too many requests"})
 			c.Abort()
 			return
 		}

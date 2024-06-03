@@ -9,6 +9,7 @@ import (
 func SetupRouter(
 	authController *controllers.UserController,
 	roomController *controllers.RoomController,
+	bookingController *controllers.BookingController,
 ) *gin.Engine {
 	router := gin.Default()
 
@@ -23,17 +24,26 @@ func SetupRouter(
 	private := router.Group("/api")
 	private.Use(middlewares.AuthMiddleware())
 	{
-		private.PUT("/profile", authController.EditProfile)
-		private.GET("/profile/:id", authController.GetProfile)
+		// User routes
+		private.PUT("/users/profile", authController.EditProfile)
+		private.GET("/users/profile/:id", authController.GetProfile)
 		private.GET("/users", authController.GetAllUsers)
-		private.DELETE("/user/:id", authController.DeleteUser)
+		private.DELETE("/users/:id", authController.DeleteUser)
 
 		// Room routes
-		private.GET("/room/:id", roomController.GetRoomByID)
-		private.POST("/room", roomController.CreateRoom)
-		private.PUT("/room", roomController.UpdateRoom)
-		private.DELETE("/room", roomController.DeleteRoom)
+		private.GET("/rooms/:id", roomController.GetRoomByID)
+		private.POST("/rooms", roomController.CreateRoom)
+		private.PUT("/rooms/:id", roomController.UpdateRoom)
+		private.DELETE("/rooms/:id", roomController.DeleteRoom)
 		private.GET("/rooms", roomController.GetRoomsByFilter)
+
+		// Booking routes
+		private.POST("/bookings", bookingController.CreateBooking)
+		private.PUT("/bookings/:id", bookingController.UpdateBooking)
+		private.DELETE("/bookings/:id", bookingController.DeleteBooking)
+		private.GET("/bookings/:id", bookingController.GetBookingByID)
+		private.GET("/bookings", bookingController.GetAllBookings)
+		private.GET("/bookings/user/:user_id", bookingController.GetBookingsByUserID)
 	}
 
 	return router
