@@ -2,6 +2,7 @@ package services
 
 import (
 	"context"
+
 	"github.com/google/uuid"
 	"main.go/internal/domain"
 	"main.go/internal/repositories"
@@ -19,7 +20,7 @@ type roomService struct {
 	roomRepo repositories.RoomRepository
 }
 
-func NewRoomService(roomRepo repositories.RoomRepository) *RoomService {
+func NewRoomService(roomRepo repositories.RoomRepository) RoomService {
 	return &roomService{roomRepo: roomRepo}
 }
 

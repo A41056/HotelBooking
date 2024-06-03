@@ -1,19 +1,20 @@
 package controllers
 
 import (
+	"net/http"
+
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 	"main.go/internal/const"
-	"main.go/internal/models"
+	"main.go/internal/domain"
 	"main.go/internal/services"
-	"net/http"
 )
 
 type RoomController struct {
-	roomService *services.RoomService
+	roomService services.RoomService
 }
 
-func NewRoomController(roomService *services.RoomService) *RoomController {
+func NewRoomController(roomService services.RoomService) *RoomController {
 	return &RoomController{roomService: roomService}
 }
 
@@ -46,7 +47,7 @@ func (rc *RoomController) GetRoomByID(c *gin.Context) {
 }
 
 func (rc *RoomController) CreateRoom(c *gin.Context) {
-	var room models.Room
+	var room domain.Room
 	if err := c.BindJSON(&room); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": _const.ErrFailedDecodeRequestBody})
 		return
@@ -62,7 +63,7 @@ func (rc *RoomController) CreateRoom(c *gin.Context) {
 }
 
 func (rc *RoomController) UpdateRoom(c *gin.Context) {
-	var room models.Room
+	var room domain.Room
 	if err := c.BindJSON(&room); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": _const.ErrFailedDecodeRequestBody})
 		return

@@ -4,12 +4,13 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"time"
+
 	"github.com/google/uuid"
 	_const "main.go/internal/const"
 	"main.go/internal/domain"
 	"main.go/internal/models"
 	"main.go/internal/utils"
-	"time"
 
 	"gorm.io/gorm"
 )
@@ -102,7 +103,7 @@ func (ur *userRepo) Register(ctx context.Context, request *domain.UserCreateRequ
 		return err
 	}
 
-	user := &domain.User{
+	user := &models.User{
 		Username:     request.Username,
 		Email:        request.Email,
 		PasswordHash: hashedPassword,
@@ -114,13 +115,13 @@ func (ur *userRepo) Register(ctx context.Context, request *domain.UserCreateRequ
 		return err
 	}
 
-	defaultRole := &domain.Role{Name: "customer"}
+	defaultRole := &models.Role{Name: "customer"}
 	err = ur.db.FirstOrCreate(defaultRole, defaultRole).Error
 	if err != nil {
 		return err
 	}
 
-	userRole := &domain.UserRole{
+	userRole := &models.UserRole{
 		UserID: user.ID,
 		RoleID: defaultRole.ID,
 	}
@@ -217,7 +218,7 @@ func (ur *userRepo) Login(ctx context.Context, username, password string) (*doma
 
 // EditProfile updates the profile of a user in the database
 func (ur *userRepo) EditProfile(ctx context.Context, userID uuid.UUID, user *domain.User) error {
-	var existingUser domain.User
+	var existingUser models.User
 	if err := ur.db.Where("id = ?", userID).First(&existingUser).Error; err != nil {
 		return err
 	}
