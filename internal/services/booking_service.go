@@ -2,21 +2,21 @@ package services
 
 import (
 	"errors"
+	"main.go/internal/domain"
 	"time"
 
 	"github.com/google/uuid"
 	"main.go/internal/const"
-	"main.go/internal/models"
 	"main.go/internal/repositories"
 )
 
 type BookingService interface {
-	CreateBooking(userID, roomID uuid.UUID, checkInDate, checkOutDate time.Time, status int) (*models.Booking, error)
-	UpdateBooking(id uuid.UUID, checkInDate, checkOutDate time.Time, status int) (*models.Booking, error)
+	CreateBooking(userID, roomID uuid.UUID, checkInDate, checkOutDate time.Time, status _const.Status) (*domain.Booking, error)
+	UpdateBooking(id uuid.UUID, checkInDate, checkOutDate time.Time, status _const.Status) (*domain.Booking, error)
 	DeleteBooking(id uuid.UUID) error
-	GetBookingByID(id uuid.UUID) (*models.Booking, error)
-	GetAllBookings() ([]models.Booking, error)
-	GetBookingsByUserID(userID uuid.UUID) ([]models.Booking, error)
+	GetBookingByID(id uuid.UUID) (*domain.Booking, error)
+	GetAllBookings() ([]domain.Booking, error)
+	GetBookingsByUserID(userID uuid.UUID) ([]domain.Booking, error)
 }
 
 type bookingService struct {
@@ -27,8 +27,8 @@ func NewBookingService(repo repositories.BookingRepository) BookingService {
 	return &bookingService{repo: repo}
 }
 
-func (s *bookingService) CreateBooking(userID, roomID uuid.UUID, checkInDate, checkOutDate time.Time, status int) (*models.Booking, error) {
-	if status != models.Booked && status != models.Cancelled {
+func (s *bookingService) CreateBooking(userID, roomID uuid.UUID, checkInDate, checkOutDate time.Time, status _const.Status) (*domain.Booking, error) {
+	if status != _const.Booked && status != _const.Cancelled {
 		return nil, errors.New(_const.ErrInvalidStatus)
 	}
 
@@ -45,12 +45,12 @@ func (s *bookingService) CreateBooking(userID, roomID uuid.UUID, checkInDate, ch
 		return nil, errors.New(_const.ErrOverlapBooking)
 	}
 
-	booking := &models.Booking{
+	booking := &domain.Booking{
 		UserID:       userID,
 		RoomID:       roomID,
 		CheckInDate:  checkInDate,
 		CheckOutDate: checkOutDate,
-		Status:       status,
+		Status:       int(status),
 	}
 	if err := s.repo.Create(booking); err != nil {
 		return nil, err
@@ -58,8 +58,8 @@ func (s *bookingService) CreateBooking(userID, roomID uuid.UUID, checkInDate, ch
 	return booking, nil
 }
 
-func (s *bookingService) UpdateBooking(id uuid.UUID, checkInDate, checkOutDate time.Time, status int) (*models.Booking, error) {
-	if status != models.Booked && status != models.Cancelled {
+func (s *bookingService) UpdateBooking(id uuid.UUID, checkInDate, checkOutDate time.Time, status _const.Status) (*domain.Booking, error) {
+	if status != _const.Booked && status != _const.Cancelled {
 		return nil, errors.New(_const.ErrInvalidStatus)
 	}
 
@@ -87,7 +87,7 @@ func (s *bookingService) UpdateBooking(id uuid.UUID, checkInDate, checkOutDate t
 
 	booking.CheckInDate = checkInDate
 	booking.CheckOutDate = checkOutDate
-	booking.Status = status
+	booking.Status = int(status)
 
 	if err := s.repo.Update(booking); err != nil {
 		return nil, err
@@ -99,14 +99,14 @@ func (s *bookingService) DeleteBooking(id uuid.UUID) error {
 	return s.repo.Delete(id)
 }
 
-func (s *bookingService) GetBookingByID(id uuid.UUID) (*models.Booking, error) {
+func (s *bookingService) GetBookingByID(id uuid.UUID) (*domain.Booking, error) {
 	return s.repo.GetByID(id)
 }
 
-func (s *bookingService) GetAllBookings() ([]models.Booking, error) {
+func (s *bookingService) GetAllBookings() ([]domain.Booking, error) {
 	return s.repo.GetAll()
 }
 
-func (s *bookingService) GetBookingsByUserID(userID uuid.UUID) ([]models.Booking, error) {
+func (s *bookingService) GetBookingsByUserID(userID uuid.UUID) ([]domain.Booking, error) {
 	return s.repo.GetByUserID(userID)
 }

@@ -3,34 +3,42 @@ package services
 import (
 	"context"
 	"github.com/google/uuid"
-	"main.go/internal/models"
+	"main.go/internal/domain"
 	"main.go/internal/repositories"
 )
 
-type RoomService struct {
+type RoomService interface {
+	GetRoomByID(ctx context.Context, roomId uuid.UUID) (*domain.Room, error)
+	CreateRoom(ctx context.Context, room *domain.Room) error
+	UpdateRoom(ctx context.Context, room *domain.Room) error
+	DeleteRoom(ctx context.Context, id uuid.UUID) error
+	GetRooms(ctx context.Context, filters map[string]interface{}) ([]domain.Room, error)
+}
+
+type roomService struct {
 	roomRepo repositories.RoomRepository
 }
 
 func NewRoomService(roomRepo repositories.RoomRepository) *RoomService {
-	return &RoomService{roomRepo: roomRepo}
+	return &roomService{roomRepo: roomRepo}
 }
 
-func (rs *RoomService) GetRoomByID(ctx context.Context, roomId uuid.UUID) (*models.Room, error) {
+func (rs *roomService) GetRoomByID(ctx context.Context, roomId uuid.UUID) (*domain.Room, error) {
 	return rs.roomRepo.GetRoomByID(ctx, roomId)
 }
 
-func (rs *RoomService) CreateRoom(ctx context.Context, room *models.Room) error {
+func (rs *roomService) CreateRoom(ctx context.Context, room *domain.Room) error {
 	return rs.roomRepo.CreateRoom(ctx, room)
 }
 
-func (rs *RoomService) UpdateRoom(ctx context.Context, room *models.Room) error {
+func (rs *roomService) UpdateRoom(ctx context.Context, room *domain.Room) error {
 	return rs.roomRepo.UpdateRoom(ctx, room)
 }
 
-func (rs *RoomService) DeleteRoom(ctx context.Context, id uuid.UUID) error {
+func (rs *roomService) DeleteRoom(ctx context.Context, id uuid.UUID) error {
 	return rs.roomRepo.DeleteRoom(ctx, id)
 }
 
-func (rs *RoomService) GetRooms(ctx context.Context, filters map[string]interface{}) ([]models.Room, error) {
+func (rs *roomService) GetRooms(ctx context.Context, filters map[string]interface{}) ([]domain.Room, error) {
 	return rs.roomRepo.GetRooms(ctx, filters)
 }

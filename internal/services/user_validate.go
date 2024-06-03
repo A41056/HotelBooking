@@ -3,12 +3,12 @@ package services
 import (
 	"errors"
 	"main.go/internal/const"
-	"main.go/internal/models"
+	"main.go/internal/domain"
 	"regexp"
 	"strings"
 )
 
-func validateUserCreateRequest(user *models.UserCreateRequest) error {
+func validateUserCreateRequest(user *domain.UserCreateRequest) error {
 	if strings.TrimSpace(user.Username) == "" {
 		return errors.New(_const.ErrUserNameRequire)
 	}
@@ -21,7 +21,7 @@ func validateUserCreateRequest(user *models.UserCreateRequest) error {
 	return nil
 }
 
-func validateUser(user *models.User) error {
+func validateUser(user *domain.User) error {
 	if strings.TrimSpace(user.Username) == "" {
 		return errors.New(_const.ErrUserNameRequire)
 	}
