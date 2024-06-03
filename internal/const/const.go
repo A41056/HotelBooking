@@ -7,6 +7,7 @@ const (
 	Empty Status = iota
 	Booked
 	Repair
+	Cancelled
 
 	ErrInvalidUserID           = "invalid user_id"
 	ErrInvalidRoomID           = "invalid room_id"

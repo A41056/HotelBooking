@@ -6,11 +6,6 @@ import (
 	"github.com/google/uuid"
 )
 
-const (
-	Booked    = 1
-	Cancelled = 2
-)
-
 // Booking model
 type Booking struct {
 	Base

@@ -2,17 +2,19 @@ package repositories
 
 import (
 	"context"
+	"fmt"
 	"github.com/google/uuid"
 	"gorm.io/gorm"
+	"main.go/internal/domain"
 	"main.go/internal/models"
 )
 
 type RoomRepository interface {
-	GetRoomByID(ctx context.Context, roomId uuid.UUID) (*models.Room, error)
-	CreateRoom(ctx context.Context, room *models.Room) error
-	UpdateRoom(ctx context.Context, room *models.Room) error
+	GetRoomByID(ctx context.Context, roomId uuid.UUID) (*domain.Room, error)
+	CreateRoom(ctx context.Context, room *domain.Room) error
+	UpdateRoom(ctx context.Context, room *domain.Room) error
 	DeleteRoom(ctx context.Context, roomId uuid.UUID) error
-	GetRooms(ctx context.Context, filters map[string]interface{}) ([]models.Room, error)
+	GetRooms(ctx context.Context, filters map[string]interface{}) ([]domain.Room, error)
 }
 
 type roomRepo struct {
@@ -49,14 +51,7 @@ func (r *roomRepo) GetRooms(ctx context.Context, filters map[string]interface{})
 
 	query := r.DB
 	for key, value := range filters {
-		switch key {
-		case "room_number":
-			query = query.Where("room_number = ?", value)
-		case "status":
-			query = query.Where("status = ?", value)
-		case "price_type":
-			query = query.Where("price_type = ?", value)
-		}
+		query = query.Where(fmt.Sprintf("%s = ?", key), value)
 	}
 
 	if err := query.Find(&rooms).Error; err != nil {
