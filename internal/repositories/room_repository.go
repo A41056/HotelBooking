@@ -4,10 +4,10 @@ import (
 	"context"
 	"fmt"
 
+	"dev.longnt1.git/aessment-hotel-booking.git/internal/domain"
+	"dev.longnt1.git/aessment-hotel-booking.git/internal/models"
 	"github.com/google/uuid"
 	"gorm.io/gorm"
-	"main.go/internal/domain"
-	"main.go/internal/models"
 )
 
 type RoomRepository interface {

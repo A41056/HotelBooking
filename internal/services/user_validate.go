@@ -2,10 +2,11 @@ package services
 
 import (
 	"errors"
-	"main.go/internal/const"
-	"main.go/internal/domain"
 	"regexp"
 	"strings"
+
+	_const "dev.longnt1.git/aessment-hotel-booking.git/internal/const"
+	"dev.longnt1.git/aessment-hotel-booking.git/internal/domain"
 )
 
 func validateUserCreateRequest(user *domain.UserCreateRequest) error {

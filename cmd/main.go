@@ -2,12 +2,13 @@ package main
 
 import (
 	"log"
-	"main.go/internal/config"
-	"main.go/internal/controllers"
-	"main.go/internal/repositories"
-	"main.go/internal/routes"
-	"main.go/internal/services"
-	"main.go/internal/utils"
+
+	"dev.longnt1.git/aessment-hotel-booking.git/internal/config"
+	"dev.longnt1.git/aessment-hotel-booking.git/internal/controllers"
+	"dev.longnt1.git/aessment-hotel-booking.git/internal/repositories"
+	"dev.longnt1.git/aessment-hotel-booking.git/internal/routes"
+	"dev.longnt1.git/aessment-hotel-booking.git/internal/services"
+	"dev.longnt1.git/aessment-hotel-booking.git/internal/utils"
 )
 
 func main() {

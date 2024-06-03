@@ -1,9 +1,9 @@
 package routes
 
 import (
+	"dev.longnt1.git/aessment-hotel-booking.git/internal/controllers"
+	"dev.longnt1.git/aessment-hotel-booking.git/internal/middlewares"
 	"github.com/gin-gonic/gin"
-	"main.go/internal/controllers"
-	"main.go/internal/middlewares"
 )
 
 func SetupRouter(

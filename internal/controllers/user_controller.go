@@ -5,13 +5,13 @@ import (
 	"errors"
 	"net/http"
 
+	_const "dev.longnt1.git/aessment-hotel-booking.git/internal/const"
+	"dev.longnt1.git/aessment-hotel-booking.git/internal/domain"
+	"dev.longnt1.git/aessment-hotel-booking.git/internal/services"
 	"gorm.io/gorm"
-	"main.go/internal/domain"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
-	"main.go/internal/const"
-	"main.go/internal/services"
 )
 
 type UserController struct {

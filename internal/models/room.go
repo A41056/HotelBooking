@@ -1,8 +1,8 @@
 package models
 
 import (
-	"main.go/internal/const"
-	"main.go/internal/domain"
+	_const "dev.longnt1.git/aessment-hotel-booking.git/internal/const"
+	"dev.longnt1.git/aessment-hotel-booking.git/internal/domain"
 )
 
 // Room model

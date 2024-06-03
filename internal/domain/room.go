@@ -1,6 +1,6 @@
 package domain
 
-import _const "main.go/internal/const"
+import _const "dev.longnt1.git/aessment-hotel-booking.git/internal/const"
 
 type Room struct {
 	Base

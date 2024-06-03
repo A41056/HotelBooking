@@ -1,13 +1,14 @@
 package repositories
 
 import (
-	_const "main.go/internal/const"
-	"main.go/internal/domain"
 	"time"
+
+	_const "dev.longnt1.git/aessment-hotel-booking.git/internal/const"
+	"dev.longnt1.git/aessment-hotel-booking.git/internal/domain"
+	"dev.longnt1.git/aessment-hotel-booking.git/internal/models"
 
 	"github.com/google/uuid"
 	"gorm.io/gorm"
-	"main.go/internal/models"
 )
 
 type BookingRepository interface {

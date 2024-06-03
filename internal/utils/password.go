@@ -4,6 +4,7 @@ import (
 	"crypto/rand"
 	"encoding/hex"
 	"fmt"
+
 	"github.com/pkg/errors"
 	"golang.org/x/crypto/bcrypt"
 )

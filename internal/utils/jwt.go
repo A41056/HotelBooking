@@ -2,8 +2,9 @@ package utils
 
 import (
 	"errors"
-	_const "main.go/internal/const"
 	"time"
+
+	_const "dev.longnt1.git/aessment-hotel-booking.git/internal/const"
 
 	"github.com/dgrijalva/jwt-go"
 )

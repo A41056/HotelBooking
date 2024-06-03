@@ -1,11 +1,12 @@
 package middlewares
 
 import (
-	"github.com/google/uuid"
-	"main.go/internal/const"
-	"main.go/internal/utils"
 	"net/http"
 	"strings"
+
+	_const "dev.longnt1.git/aessment-hotel-booking.git/internal/const"
+	"dev.longnt1.git/aessment-hotel-booking.git/internal/utils"
+	"github.com/google/uuid"
 
 	"github.com/gin-gonic/gin"
 )

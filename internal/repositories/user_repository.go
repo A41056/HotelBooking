@@ -6,11 +6,11 @@ import (
 	"fmt"
 	"time"
 
+	_const "dev.longnt1.git/aessment-hotel-booking.git/internal/const"
+	"dev.longnt1.git/aessment-hotel-booking.git/internal/domain"
+	"dev.longnt1.git/aessment-hotel-booking.git/internal/models"
+	"dev.longnt1.git/aessment-hotel-booking.git/internal/utils"
 	"github.com/google/uuid"
-	_const "main.go/internal/const"
-	"main.go/internal/domain"
-	"main.go/internal/models"
-	"main.go/internal/utils"
 
 	"gorm.io/gorm"
 )

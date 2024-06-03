@@ -3,9 +3,9 @@ package services
 import (
 	"context"
 
+	"dev.longnt1.git/aessment-hotel-booking.git/internal/domain"
+	"dev.longnt1.git/aessment-hotel-booking.git/internal/repositories"
 	"github.com/google/uuid"
-	"main.go/internal/domain"
-	"main.go/internal/repositories"
 )
 
 type RoomService interface {
@@ -13,7 +13,7 @@ type RoomService interface {
 	CreateRoom(ctx context.Context, room *domain.Room) error
 	UpdateRoom(ctx context.Context, room *domain.Room) error
 	DeleteRoom(ctx context.Context, id uuid.UUID) error
-	GetRooms(ctx context.Context, filters map[string]interface{}) ([]domain.Room, error)
+	GetRooms(ctx context.Context, filters map[string]interface{}) ([]*domain.Room, error)
 }
 
 type roomService struct {
@@ -40,6 +40,6 @@ func (rs *roomService) DeleteRoom(ctx context.Context, id uuid.UUID) error {
 	return rs.roomRepo.DeleteRoom(ctx, id)
 }
 
-func (rs *roomService) GetRooms(ctx context.Context, filters map[string]interface{}) ([]domain.Room, error) {
+func (rs *roomService) GetRooms(ctx context.Context, filters map[string]interface{}) ([]*domain.Room, error) {
 	return rs.roomRepo.GetRooms(ctx, filters)
 }

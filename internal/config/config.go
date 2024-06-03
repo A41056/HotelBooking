@@ -2,11 +2,12 @@ package config
 
 import (
 	"fmt"
+	"os"
+
+	"dev.longnt1.git/aessment-hotel-booking.git/internal/models"
 	"github.com/joho/godotenv"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
-	"main.go/internal/models"
-	"os"
 )
 
 var (

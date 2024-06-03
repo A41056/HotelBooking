@@ -3,10 +3,11 @@ package services
 import (
 	"context"
 	"errors"
+
+	_const "dev.longnt1.git/aessment-hotel-booking.git/internal/const"
+	"dev.longnt1.git/aessment-hotel-booking.git/internal/domain"
+	"dev.longnt1.git/aessment-hotel-booking.git/internal/repositories"
 	"github.com/google/uuid"
-	"main.go/internal/const"
-	"main.go/internal/domain"
-	"main.go/internal/repositories"
 )
 
 type UserService interface {

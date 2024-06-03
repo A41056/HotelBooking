@@ -1,4 +1,4 @@
-module main.go
+module dev.longnt1.git/aessment-hotel-booking.git
 
 go 1.22.3
 
