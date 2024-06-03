@@ -2,6 +2,7 @@ package utils
 
 import (
 	"errors"
+	_const "main.go/internal/const"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
@@ -40,13 +41,13 @@ func ValidateJWT(tokenString string) (string, error) {
 
 	if err != nil {
 		if err == jwt.ErrSignatureInvalid {
-			return "", errors.New("invalid token signature")
+			return "", errors.New(_const.ErrInvalidTokenSignature)
 		}
 		return "", err
 	}
 
 	if !token.Valid {
-		return "", errors.New("invalid token")
+		return "", errors.New(_const.ErrInvalidToken)
 	}
 
 	return claims.UserID, nil

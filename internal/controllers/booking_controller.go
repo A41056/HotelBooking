@@ -3,6 +3,7 @@ package controllers
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
+	"main.go/internal/const"
 	"main.go/internal/services"
 	"net/http"
 	"time"
@@ -32,25 +33,25 @@ func (bc *BookingController) CreateBooking(c *gin.Context) {
 
 	userID, err := uuid.Parse(req.UserID)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid user_id"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": _const.ErrInvalidUserID})
 		return
 	}
 
 	roomID, err := uuid.Parse(req.RoomID)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid room_id"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": _const.ErrInvalidRoomID})
 		return
 	}
 
 	checkInDate, err := time.Parse(time.RFC3339, req.CheckInDate)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid check_in_date"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": _const.ErrInvalidCheckInDate})
 		return
 	}
 
 	checkOutDate, err := time.Parse(time.RFC3339, req.CheckOutDate)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid check_out_date"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": _const.ErrInvalidCheckOutDate})
 		return
 	}
 
@@ -66,7 +67,7 @@ func (bc *BookingController) CreateBooking(c *gin.Context) {
 func (bc *BookingController) UpdateBooking(c *gin.Context) {
 	id, err := uuid.Parse(c.Param("id"))
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid booking id"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": _const.ErrInvalidBookingID})
 		return
 	}
 
@@ -83,13 +84,13 @@ func (bc *BookingController) UpdateBooking(c *gin.Context) {
 
 	checkInDate, err := time.Parse(time.RFC3339, req.CheckInDate)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid check_in_date"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": _const.ErrInvalidCheckInDate})
 		return
 	}
 
 	checkOutDate, err := time.Parse(time.RFC3339, req.CheckOutDate)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid check_out_date"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": _const.ErrInvalidCheckOutDate})
 		return
 	}
 
@@ -105,7 +106,7 @@ func (bc *BookingController) UpdateBooking(c *gin.Context) {
 func (bc *BookingController) DeleteBooking(c *gin.Context) {
 	id, err := uuid.Parse(c.Param("id"))
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid booking id"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": _const.ErrInvalidBookingID})
 		return
 	}
 
@@ -120,7 +121,7 @@ func (bc *BookingController) DeleteBooking(c *gin.Context) {
 func (bc *BookingController) GetBookingByID(c *gin.Context) {
 	id, err := uuid.Parse(c.Param("id"))
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid booking id"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": _const.ErrInvalidBookingID})
 		return
 	}
 
@@ -146,7 +147,7 @@ func (bc *BookingController) GetAllBookings(c *gin.Context) {
 func (bc *BookingController) GetBookingsByUserID(c *gin.Context) {
 	userID, err := uuid.Parse(c.Param("user_id"))
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid user id"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": _const.ErrInvalidUserID})
 		return
 	}
 

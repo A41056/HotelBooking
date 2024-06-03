@@ -2,6 +2,7 @@ package services
 
 import (
 	"errors"
+	"main.go/internal/const"
 	"main.go/internal/models"
 	"regexp"
 	"strings"
@@ -9,23 +10,23 @@ import (
 
 func validateUserCreateRequest(user *models.UserCreateRequest) error {
 	if strings.TrimSpace(user.Username) == "" {
-		return errors.New("username is required")
+		return errors.New(_const.ErrUserNameRequire)
 	}
 	if !isValidEmail(user.Email) {
-		return errors.New("invalid email format")
+		return errors.New(_const.ErrInvalidEmailFormat)
 	}
 	if len(user.Password) < 6 {
-		return errors.New("password must be at least 6 characters long")
+		return errors.New(_const.ErrPasswordTooShort)
 	}
 	return nil
 }
 
 func validateUser(user *models.User) error {
 	if strings.TrimSpace(user.Username) == "" {
-		return errors.New("username is required")
+		return errors.New(_const.ErrUserNameRequire)
 	}
 	if !isValidEmail(user.Email) {
-		return errors.New("invalid email format")
+		return errors.New(_const.ErrPasswordTooShort)
 	}
 	return nil
 }

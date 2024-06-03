@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"github.com/google/uuid"
+	"main.go/internal/const"
 	"main.go/internal/models"
 	"main.go/internal/repositories"
 )
@@ -25,14 +26,14 @@ func (s *userService) Register(ctx context.Context, user *models.UserCreateReque
 
 func (s *userService) Login(ctx context.Context, username, password string) (*models.Token, error) {
 	if len(password) < 6 {
-		return nil, errors.New("password must be at least 6 characters long")
+		return nil, errors.New(_const.ErrPasswordTooShort)
 	}
 	return s.userRepo.Login(ctx, username, password)
 }
 
 func (s *userService) EditProfile(ctx context.Context, userID uuid.UUID, user *models.User) error {
 	if userID == uuid.Nil {
-		return errors.New("invalid user ID")
+		return errors.New(_const.ErrInvalidUserID)
 	}
 	//if err := validateUser(user); err != nil {
 	//	return err
@@ -42,7 +43,7 @@ func (s *userService) EditProfile(ctx context.Context, userID uuid.UUID, user *m
 
 func (s *userService) GetUserByID(ctx context.Context, userID uuid.UUID) (*models.User, error) {
 	if userID == uuid.Nil {
-		return nil, errors.New("invalid user ID")
+		return nil, errors.New(_const.ErrInvalidUserID)
 	}
 	return s.userRepo.GetUserByID(ctx, userID)
 }
@@ -60,7 +61,7 @@ func (s *userService) CreateUser(ctx context.Context, user *models.User) error {
 
 func (s *userService) UpdateUser(ctx context.Context, userID uuid.UUID, user *models.User) error {
 	if userID == uuid.Nil {
-		return errors.New("invalid user ID")
+		return errors.New(_const.ErrInvalidUserID)
 	}
 	if err := validateUser(user); err != nil {
 		return err
@@ -70,7 +71,7 @@ func (s *userService) UpdateUser(ctx context.Context, userID uuid.UUID, user *mo
 
 func (s *userService) DeleteUser(ctx context.Context, userID uuid.UUID) error {
 	if userID == uuid.Nil {
-		return errors.New("invalid user ID")
+		return errors.New(_const.ErrInvalidUserID)
 	}
 	return s.userRepo.DeleteUser(ctx, userID)
 }

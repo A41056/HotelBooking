@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/google/uuid"
+	_const "main.go/internal/const"
 	"main.go/internal/models"
 	"main.go/internal/utils"
 	"time"
@@ -139,7 +140,7 @@ func (ur *userRepo) Login(ctx context.Context, username, password string) (*mode
 	}
 
 	if !ur.hasher.CompareHashPassword(user.PasswordHash, user.PasswordSalt, password) {
-		return nil, errors.New("incorrect password")
+		return nil, errors.New(_const.ErrIncorrectPassword)
 	}
 
 	tokenString, err := utils.GenerateJWT(user.ID.String())
